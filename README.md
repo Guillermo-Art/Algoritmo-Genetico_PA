@@ -9,6 +9,7 @@ Un ejemplo de corrida sería el siguiente:
 
 Numero de individuos para cada iteracion:
 4
+
 Numero de iteraciones a realizar:
 5
 Poblacion inicial:
