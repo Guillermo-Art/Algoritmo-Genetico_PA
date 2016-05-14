@@ -12,6 +12,7 @@ Numero de individuos para cada iteracion:
 
 Numero de iteraciones a realizar:
 5
+
 Poblacion inicial:
 01110
 10010
