@@ -7,6 +7,7 @@ Para compilar el archivo fuente main.c es necesario utilizar las banderas -fopen
 
 Un ejemplo de corrida sería el siguiente:
 
+
 Numero de individuos para cada iteracion:
 4
 
