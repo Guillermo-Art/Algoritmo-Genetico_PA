@@ -6,7 +6,7 @@ Para compilar el archivo fuente genetico.c se debe agregar la bandera -lm
 Para compilar el archivo fuente main.c es necesario utilizar las banderas -fopenmp -lm
 
 Un ejemplo de corrida sería el siguiente:
-
+*Ver en RAW, por el formato.
 
 Numero de individuos para cada iteracion:
 4
