@@ -43,7 +43,6 @@ int generaAleatorio(int num){
 }
 
 int main(){
-        
 
 	int k, m, nit, n;
 
@@ -106,34 +105,42 @@ void iteraciones(int pp[10][10], int population, int p){
 	
 	int max = 1;
 	int i, j;
-
-	for(i=0; i<population; i++){
-		x[i] = 0;
-		for(j=0; j<p; j++){
-			//Evaluacion en la funcion
-			x[i] = x[i] + (pp[i][j]*pow(2, p-1-j));
+	#pragma omp parallel num_threads(2)
+    #pragma omp sections
+    {
+		#pragma omp section
+	    {
+			for(i=0; i<population; i++){
+				x[i] = 0;
+				for(j=0; j<p; j++){
+					//Evaluacion en la funcion
+					x[i] = x[i] + (pp[i][j]*pow(2, p-1-j));
+				}
+				fx[i] = x[i]*x[i];
+				if(max <= fx[i]){
+					max = fx[i];
+				}
+			}
 		}
-		fx[i] = x[i]*x[i];
-		if(max <= fx[i]){
-			max = fx[i];
+		#pragma omp section
+	    {
+			printf("\n\n# \t Poblacion \t X \t F(X)\n\n");
+		
+			for(i=0; i<population; i++){
+				printf("%d\t", ico);
+				ico++;
+				for(j=0; j<p; j++){
+					printf("%d", pp[i][j]);
+				}
+				printf("\t\t %d \t %d \n", x[i], fx[i]);
+			}
+			printf("\nMaximo: %d \n", max);
+		
+			if(m_max < max){
+				m_max = max;
+				ico1++;
+			}
 		}
-	}
-
-	printf("\n\n# \t Poblacion \t X \t F(X)\n\n");
-
-	for(i=0; i<population; i++){
-		printf("%d\t", ico);
-		ico++;
-		for(j=0; j<p; j++){
-			printf("%d", pp[i][j]);
-		}
-		printf("\t\t %d \t %d \n", x[i], fx[i]);
-	}
-	printf("\nMaximo: %d \n", max);
-
-	if(m_max < max){
-		m_max = max;
-		ico1++;
 	}
 }
 
@@ -262,20 +269,28 @@ void mutacion(int np2, int mb2){
 					//Se obtiene un valor de indice de manera aleatoria, de esta manera se obtiene una posicion dentro de la matriz
 					//en la que se realizara la mutacion dentro del individio. 
 					z = generaAleatorio(mb2);
-
+			#pragma omp parallel num_threads(2)
+		    #pragma omp sections
+		    {
+				#pragma omp section
+			    {
 					//Realizamos al mutacion, es decir el intercambio de bits para los individuos generados a partir de la reproduccion.
 					if(tpop[i][z] == 0){
 						tpop[i][z] = 1;
 					}else{
 						tpop[i][z] = 0;
 					}
-
+				}
+				#pragma omp section
+			    {
 					//Realizamos la mutacion para los individuos seleccionados candidatos para la reproduccion. 
 					if(npop[k][generaAleatorio(mb2)] == 0){
 						npop[k][generaAleatorio(mb2)] = 1;
 					}else{
 						npop[k][generaAleatorio(mb2)] = 0;
 					}
+				}
+			}
 					mutacion(k, mb2);
 				}
 			}
@@ -293,6 +308,7 @@ void mutacion(int np2, int mb2){
 		printf(", ");
 	}
 }
+
 
 
 
