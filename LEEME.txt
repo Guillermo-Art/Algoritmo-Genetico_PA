@@ -1,0 +1,110 @@
+Guillermo Arturo Herandez Tapia		A01321776
+Heloel Hernandez Santos 			A07007415
+
+
+*Proyecto final de Programacion Avanzada (Implementacion de un algoritmo genetico paralelizado utilizando OpenMP).
+
+	-->Instrucciones para correr el programa
+
+		1. Para compilar y crear el archivo binario (Ubuntu 15.10) se hace uso de la siguiente instruccion en consola:
+
+			-->gcc -o genetico genetico_paralelizado.c -fopenmp -lm
+
+			*NOTA: se debe agregar la bandera -fopenmp para poder hacer uso de las funciones de paralelizacion que OpenMP ofrece.
+			*NOTA: se debe agregar la bandera -lm para hacer uso de la funciones de la libreria <math.h>
+
+		2. Una vez generado el archivo binaro debe ejecutarse con la siguiente instruccion en consola:
+
+			--> ./genetico
+
+
+	-->Ejemplo de resultado devuelto en consola:
+
+		-->En este ejemplo se utilizo una poblacion pequeña de 4 individuos y 5 iteraciones.
+
+		-->Al ejecutar el programa se el usuario debe especificar:
+
+			1. El numero de individuos a generar por iteracion.
+
+			2. El numero de iteraciones que el algoritmo debe realizar para llegar a una solucion satisfactoria.
+
+			Consideraciones:
+
+			1. Si se quiere cambiar el numero de bits para representar a un individuo, es necesario modifcar el valor de la variable m, dicho valor debe ser mayor a 0. La variable m se encuentra en la linea 49.
+
+			2. El tamaño maximo de la poblacion inicial no debe ser mayor a 1000 individuos.
+
+			-->Ejemplo:
+
+			Numero de individuos para cada iteracion:
+			4
+			Numero de iteraciones a realizar:
+			5
+
+			Poblacion inicial: 
+			1101100111
+			0001101111
+			0010100010
+			1010110100
+
+			Iteracion: 0 
+
+
+			# 	 Poblacion 	 X 	 F(X)
+
+			0	1110011011		 923 	 851929 
+			1	1111011000		 984 	 968256 
+			2	0100010100		 276 	 76176 
+			3	0010110101		 181 	 32761 
+
+			Maximo de x: 984 
+
+			Iteracion: 1 
+
+
+			# 	 Poblacion 	 X 	 F(X)
+
+			4	1010000000		 640 	 409599 
+			5	1001000010		 578 	 334083 
+			6	0000001010		 10 	 99 
+			7	1111010100		 980 	 960399 
+
+			Maximo de x: 979 
+
+			Iteracion: 2 
+
+
+			# 	 Poblacion 	 X 	 F(X)
+
+			8	0101011001		 345 	 119025 
+			9	1101010110		 854 	 729316 
+			10	1101010100		 852 	 725904 
+			11	0111000000		 448 	 200704 
+
+			Maximo de x: 854 
+
+			Iteracion: 3 
+
+
+			# 	 Poblacion 	 X 	 F(X)
+
+			12	0001111101		 125 	 15624 
+			13	1101000000		 832 	 692224 
+			14	1101111100		 892 	 795663 
+			15	0111000000		 448 	 200704 
+
+			Maximo de x: 891 
+
+			Iteracion: 4 
+
+
+			# 	 Poblacion 	 X 	 F(X)
+
+			16	1100001110		 886 	 784996 
+			17	0110011000		 155 	 24024 
+			18	1001111000		 374 	 139876 
+			19	0101111110		 609 	 370881 
+
+			Maximo de x: 886 
+
+			El valor maximo encontrado es: 984 

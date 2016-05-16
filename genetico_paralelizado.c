@@ -1,5 +1,5 @@
 //Guillermo Arturo Hernandez Tapia		A01321776
-
+//Heloel Hernandez Santos 				A07007415
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -10,15 +10,15 @@
 0 y 31. La representacion de cada individuo se genera a partir de cadenas de 5 bits de largo.*/
 
 //Variables globales
-int pop[10][10]; //Almacena la poblacion generada de manera aleatoria.
-int npop[10][10]; //Almacena la poblacion generada a partir de la cruza de dos individuos.
-int tpop[10][10]; //Almacena los individuos que han mutado.
-int x[10]; //Valores generados para x.
-int fx[10]; //Valores obtenidos al evaluar la funcion en x.
+int pop[1000][1000]; //Almacena la poblacion generada de manera aleatoria.
+int npop[1000][1000]; //Almacena la poblacion generada a partir de la cruza de dos individuos.
+int tpop[1000][1000]; //Almacena los individuos que han mutado.
+int x[1000]; //Valores generados para x.
+int fx[1000]; //Valores obtenidos al evaluar la funcion en x.
 int m_max = 1;
 int ico = 0; //Numero de iteracion
 
-void iteraciones(int [10][10], int, int);
+void iteraciones(int [1000][1000], int, int);
 void competir(int, int);
 void reproduccion(int, int);
 void mutacion(int, int);
@@ -46,7 +46,7 @@ int main(){
 	printf("%s\n", "Numero de iteraciones a realizar:");
 	scanf("%d", &nit);
 
-	m = 5;
+	m = 10;
 
 	int i, j;
 
@@ -100,45 +100,39 @@ int main(){
  *iteraciones a realizar. Ademas realiza la evaluacion en la funcion objetivo, en este caso f(x) = x^2. De esta manera, cada valor de x
  *generado sera evaluado en la funcion objetivo para asi determinar el valor maximo.
  */
-void iteraciones(int pp[10][10], int population, int p){
+void iteraciones(int pp[1000][1000], int population, int p){
 	
 	int max = 1;
 	int i, j;
-
-	#pragma omp parallel num_threads(2)
-	{
-		#pragma omp sections
-		{
-			#pragma omp section
-			{
-				//Conversion de las cadenas de bits a su representacion decimal.
-				for(i=0; i<population; i++){
-					x[i] = 0;
-					for(j=0; j<p; j++){
-						x[i] = x[i] + (pp[i][j]*pow(2, p-1-j));
-					}
-
-					fx[i] = x[i]*x[i]; //Evaluacion de los valores de x en la funcion objetivo f(x) = x^2
-					if(max <= fx[i]){
-						max = fx[i];
-					}
-				}
-			}
 		
-			#pragma omp section
-			{
-				printf("\n\n# \t Poblacion \t X \t F(X)\n\n");
-				for(i=0; i<population; i++){
-					printf("%d\t", ico);
-					ico++;
-					for(j=0; j<p; j++){
-						printf("%d", pp[i][j]);
-					}
-					printf("\t\t %d \t %d \n", x[i], fx[i]);
-				}
-			}
+			
+	//Conversion de las cadenas de bits a su representacion decimal.
+	#pragma omp parallel for
+	for(i=0; i<population; i++){
+		x[i] = 0;
+		for(j=0; j<p; j++){
+			x[i] = x[i] + (pp[i][j]*pow(2, p-1-j));
+		}
+
+		//fx[i] = x[i]*x[i]; //Evaluacion de los valores de x en la funcion objetivo f(x) = x^2
+		fx[i] = ( x[i]*x[i] ) + sin(10*x[i]);
+		if(max <= fx[i]){
+			max = fx[i];
 		}
 	}
+
+	#pragma opm barrier
+
+	printf("\n\n# \t Poblacion \t X \t F(X)\n\n");
+	for(i=0; i<population; i++){
+		printf("%d\t", ico);
+		ico++;
+		for(j=0; j<p; j++){
+			printf("%d", pp[i][j]);
+		}
+		printf("\t\t %d \t %d \n", x[i], fx[i]);
+	}
+			
 	printf("\nMaximo de x: %d \n", (int)sqrt(max));
 
 	if(m_max < max){
